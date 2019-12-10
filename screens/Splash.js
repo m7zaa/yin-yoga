@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, Button, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
-
+import { View, StyleSheet, Text, Button, TouchableWithoutFeedback, Keyboard, Alert, FlatList, Modal } from 'react-native';
+import poses from '../assets/data/poses.json';
 import Colors from '../constants/colors';
 import Card from '../components/Card';
 import TitleText from '../components/TitleText';
@@ -13,17 +13,21 @@ import BodyText from '../components/BodyText';
 const Splash = props => {
   // const [enteredValue, setEnteredValue] = useState('');
   const [confirmed, setConfirmed] = useState(false);
+  const [routine, setRoutine] = useState();
   // const [selectedNumber, setSelectedNumber] = useState();
 
 
-  // const numberInputHandler = inputText => {
-  //   setEnteredValue(inputText.replace(/[^0-9]/g, ''));
-  // };
-  // const resetInputHandler = () => {
-  //   setEnteredValue('');
-  //   setConfirmed(false);
-  // };
+  const numberInputHandler = inputText => {
+    setEnteredValue(inputText.replace(/[^0-9]/g, ''));
+  };
+  const resetInputHandler = () => {
+    setEnteredValue('');
+    setConfirmed(false);
+  };
 
+     const generateRandomRoutineHandler = () => {
+
+     }
   // const confirmInputHandler = () => {
   //   const chosenNumber = parseInt(enteredValue);
   //   if (isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) {
@@ -49,7 +53,7 @@ const Splash = props => {
   //         maxLength={2}
   //         onChangeText={numberInputHandler}
   //         value={enteredValue}
-  //       />
+  //       /> 
   //       <Button title="START" onPress={() => props.onStartGame(selectedNumber)} />
   //     </Card>
   //   );
@@ -59,11 +63,12 @@ const Splash = props => {
       Keyboard.dismiss();
     }}>
 
+      <Modal visible={props.visible} animationType="slide">
       <View style={styles.screen}>
         <TitleText style={styles.title}>Start a flow!</TitleText>
         <Card style={styles.inputContainer}>
-          <Text>Select a number</Text>
-          <Input
+          <Text>What kind of flow do you want?</Text>
+          {/* <Input
             style={styles.input}
             blurOnSubmit
             autoCorrect={false}
@@ -71,22 +76,59 @@ const Splash = props => {
             maxLength={2}
             onChangeText={numberInputHandler}
             value={enteredValue}
-          />
+          /> */}
 
           <View style={styles.buttonContainer}>
             <View style={styles.button}>
-              <Button title="Reset" onPress={resetInputHandler} color={Colors.accent} />
+              <Button title="Custom" 
+              // onPress={resetInputHandler} 
+              color={Colors.accent} />
             </View>
             <View style={styles.button}>
-              <Button title="Confirm" onPress={confirmInputHandler} color={Colors.primary} />
+              <Button title="Random" 
+              // onPress={confirmInputHandler} 
+              color={Colors.primary} />
             </View>
           </View>
         </Card>
-        {confirmedOutput}
+          <View>
+            <FlatList
+              data={poses}
+              showsVerticalScrollIndicator={true}
+              renderItem={({ item }) =>
+                <View >
+                  <Text>{item.english_name}</Text>
+                </View>
+              }
+            />  
+          </View>
+
+        
+        {/* {confirmedOutput} */}
       </View>
+    </Modal>
     </TouchableWithoutFeedback>
   );
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const styles = StyleSheet.create({
   screen: {
@@ -97,8 +139,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     marginVertical: 10,
-    // fontFamily: 'open-sans-bold',
-
   },
   buttonContainer: {
     flexDirection: 'row',

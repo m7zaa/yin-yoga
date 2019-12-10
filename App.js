@@ -7,6 +7,8 @@ import Routine from './screens/Routine';
 import CreateFlow from './screens/CreateFlow';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
+// import TitleText from '../components/TitleText';
+// import BodyText from '../components/BodyText';
 
 
 const fetchFonts = () => {
@@ -30,11 +32,17 @@ export default function App() {
       />
     );
   }
+  let content = <Splash />;
+
+
+
+
+
 
   return (
     <View style={styles.container}>
-      <Header title="Welcome" />
-      <Text>Yin-Yoga Flows</Text>
+      <Header title="Shaolin Yin" />
+      {content}
     </View>
   );
 }
@@ -43,7 +51,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    // alignItems: 'center',
+    // justifyContent: 'center',
   },
 });
