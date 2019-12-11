@@ -8,8 +8,12 @@ const Header = props => {
 
   return (
     <View style={styles.header}>
-      <TitleText style={styles.headerTitle}>{props.title}</TitleText>
-      <Button title="Home" onPress={props.onGoHomeHandler} />
+      <View style={styles.headerTitle}>
+        <TitleText>{props.title}</TitleText>
+
+        <Button style={styles.homeButton} title="Home" onPress={props.onGoHomeHandler} />
+      </View>
+
     </View>
   );
 };
@@ -25,13 +29,26 @@ const Header = props => {
 
 const styles = StyleSheet.create({
   header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+
+  },
+  headerTitle: {
     width: '100%',
     height: 90,
     paddingTop: 36,
     backgroundColor: Colors.accent3,
     alignItems: 'center',
     justifyContent: 'center',
-    fontFamily: 'open-sans'
+    fontFamily: 'open-sans',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20
+
+  },
+  homeButton: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   }
 
 });
