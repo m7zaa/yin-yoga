@@ -7,6 +7,8 @@ import Card from '../components/Card';
 import TitleText from '../components/TitleText';
 import BodyText from '../components/BodyText';
 
+
+
 const Routine = props => {
   const [randomRoutine, setRandomRoutine] = useState([]);
 
@@ -14,19 +16,30 @@ const Routine = props => {
   const oneImg = onePose.img_url;
   console.log()
 
-  const generateRandomPoseHandler = () => {
-    var randomNumber = Math.floor(Math.random() * 40) + 1;
-    setRandomRoutine([poses[0]])
-    // console.log(poses[randomNumber])
-    console.log(randomRoutine)
-  };
+  const poseArray = [];
+  for (let i = 0; i < 6; i++) {
+    let randomNumber = Math.floor(Math.random() * 40) + 1;
+    poseArray.push(poses[randomNumber])
+    setRandomRoutine(poseArray)
+  }
+  // console.log(randomRoutine)
+  // const generateRandomPoseHandler = () => {
+  //   const poseArray = [];
+  //   for(let i = 0; i < 6; i++ ) {
+  //     let randomNumber = Math.floor(Math.random() * 40) + 1;
+  //     poseArray.push(poses[randomNumber])
+  //     setRandomRoutine(poseArray)
+  //   }
+  // };
 
+  
   return (
     <View style={styles.screen}>
       <Button title="Start"
-        onPress=
-        {generateRandomPoseHandler}
+        // onPress=
+        // {generateRandomPoseHandler}
         color={Colors.accent} />
+      {/* <TitleText style={styles.title}>{randomRoutine[0].english_name}</TitleText> */}
 
       <TitleText style={styles.title}>{onePose.english_name}</TitleText>
       <Image
