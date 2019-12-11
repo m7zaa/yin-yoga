@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, Button, Image } from 'react-native';
+import { View, StyleSheet, Button, Image } from 'react-native';
 import poses from '../assets/data/poses.json';
 import Colors from '../constants/colors';
 import Card from '../components/Card';
@@ -23,7 +23,7 @@ const Splash = props => {
 
         <View style={styles.cardsStyle}>
           <Card style={styles.cardContainer}>
-            <Text>Custom Flow</Text>
+            <BodyText>Custom Flow</BodyText>
             <View style={styles.buttonContainer}>
               <View style={styles.button}>
                 <Button title="Start" 
@@ -33,11 +33,12 @@ const Splash = props => {
             </View>
           </Card>
           <Card style={styles.cardContainer}>
-            <Text>Quick Start</Text>
+            <BodyText>Quick Start</BodyText>
             <View style={styles.buttonContainer}>
               <View style={styles.button}>
                 <Button title="Start"
-                  onPress={props.onStartRandomFlow} 
+                  onPress=
+                  {props.onStartRandomFlow} 
                   color={Colors.accent} />
               </View>
             </View>

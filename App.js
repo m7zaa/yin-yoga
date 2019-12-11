@@ -7,8 +7,8 @@ import Routine from './screens/Routine';
 import CreateFlow from './screens/CreateFlow';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
-import TitleText from './components/TitleText';
-import BodyText from './components/BodyText';
+import poses from './assets/data/poses.json';
+
 
 
 const fetchFonts = () => {
@@ -22,6 +22,8 @@ export default function App() {
 
   const [dataLoaded, setDataLoaded] = useState(false);
   const [splash, setSplash] = useState(true);
+  const [randomRoutine, setRandomRoutine] = useState([]);
+
 
   if (!dataLoaded) {
     return (
@@ -40,12 +42,18 @@ export default function App() {
     setSplash(true)
   }
 
-  let content = <Splash onStartRandomFlow={startRandomFlowHandler}/>;
+  let content = <Splash onStartRandomFlow={startRandomFlowHandler} />;
 
   if (!splash) {
-    content = <Routine onGoHomeHandler={goHomeHandler}/>
+    content = <Routine onGoHomeHandler={goHomeHandler} />
   }
 
+  // const generateRandomPoseHandler = () => {
+  //   var randomNumber = Math.floor(Math.random() * 40) + 1;
+  //   setRandomRoutine.push(poses[randomNumber])
+  // };
+
+  
   const generateRandomRoutineHandler = () => {
     
   }
