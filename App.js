@@ -48,15 +48,7 @@ export default function App() {
     content = <Routine onGoHomeHandler={goHomeHandler} />
   }
 
-  // const generateRandomPoseHandler = () => {
-  //   var randomNumber = Math.floor(Math.random() * 40) + 1;
-  //   setRandomRoutine.push(poses[randomNumber])
-  // };
-
-  
-  const generateRandomRoutineHandler = () => {
-    
-  }
+  const generateRandomRoutineHandler = () => {}
 
   return (
     <View style={styles.container}>
