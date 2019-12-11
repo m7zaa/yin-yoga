@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Text, StyleSheet, View } from 'react-native';
+import { Text, StyleSheet, View, Button } from 'react-native';
 import Header from './components/Header';
 import Splash from './screens/Splash';
 import Routine from './screens/Routine';
@@ -21,7 +21,7 @@ const fetchFonts = () => {
 export default function App() {
 
   const [dataLoaded, setDataLoaded] = useState(false);
-  const [startRoutine, setStartRoutine] = useState(false);
+  const [splash, setSplash] = useState(true);
 
   if (!dataLoaded) {
     return (
@@ -32,18 +32,29 @@ export default function App() {
       />
     );
   }
-  const startFlowHandler = () => {
-    setStartRoutine(true)
+  const startRandomFlowHandler = () => {
+    setSplash(false)
   }
-  let content = <Splash onStartFlow={startFlowHandler}/>;
 
-  if (startRoutine) {
-    content = <Routine />
+  const goHomeHandler = () => {
+    setSplash(true)
+  }
+
+  let content = <Splash onStartRandomFlow={startRandomFlowHandler}/>;
+
+  if (!splash) {
+    content = <Routine onGoHomeHandler={goHomeHandler}/>
+  }
+
+  const generateRandomRoutineHandler = () => {
+    
   }
 
   return (
     <View style={styles.container}>
-      <Header title="Shaolin Yin" />
+      <Header title="Shaolin Yin" 
+      onGoHomeHandler={goHomeHandler}
+      />
       {content}
     </View>
   );

@@ -24,6 +24,8 @@ const Routine = props => {
         source={{ uri: onePose.img_url }}
         resizeMode='contain'
       /> 
+      {/* <Button title="Next Pose" onPress={} /> */}
+
     </View >    
   )
 };

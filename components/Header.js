@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Button } from 'react-native';
 import Colors from '../constants/colors.js';
 import TitleText from '../components/TitleText';
 import BodyText from '../components/BodyText';
@@ -9,6 +9,7 @@ const Header = props => {
   return (
     <View style={styles.header}>
       <TitleText style={styles.headerTitle}>{props.title}</TitleText>
+      <Button title="Home" onPress={props.onGoHomeHandler} />
     </View>
   );
 };

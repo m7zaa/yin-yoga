@@ -37,7 +37,7 @@ const Splash = props => {
             <View style={styles.buttonContainer}>
               <View style={styles.button}>
                 <Button title="Start"
-                  onPress={props.onStartFlow} 
+                  onPress={props.onStartRandomFlow} 
                   color={Colors.accent} />
               </View>
             </View>
