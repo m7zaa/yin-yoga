@@ -7,8 +7,8 @@ import Routine from './screens/Routine';
 import CreateFlow from './screens/CreateFlow';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
-// import TitleText from '../components/TitleText';
-// import BodyText from '../components/BodyText';
+import TitleText from './components/TitleText';
+import BodyText from './components/BodyText';
 
 
 const fetchFonts = () => {
@@ -21,7 +21,7 @@ const fetchFonts = () => {
 export default function App() {
 
   const [dataLoaded, setDataLoaded] = useState(false);
-
+  const [startRoutine, setStartRoutine] = useState(false);
 
   if (!dataLoaded) {
     return (
@@ -32,12 +32,14 @@ export default function App() {
       />
     );
   }
-  let content = <Splash />;
+  const startFlowHandler = () => {
+    setStartRoutine(true)
+  }
+  let content = <Splash onStartFlow={startFlowHandler}/>;
 
-
-
-
-
+  if (startRoutine) {
+    content = <Routine />
+  }
 
   return (
     <View style={styles.container}>
