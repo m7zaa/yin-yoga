@@ -10,7 +10,7 @@ import BodyText from '../components/BodyText';
 
 const Routine = props => {
   const [randomRoutine, setRandomRoutine] = useState([]);
-
+  // const [randomNumber, setRandomNumber] = useState([]);
   console.log(randomRoutine)
 
 //   const generateRandomPoseHandler = () => {
@@ -25,24 +25,33 @@ const Routine = props => {
 
 
 
-    const generateRandomPoseHandler = () => {
-          const poseArray = [];
-          const numArray = [];
-          for(let i = 0; i < 6; i++) {
-            let randomNumber = Math.floor(Math.random() * 10) + 0;
-              for(let j = 0; j < 6; j++ ) {
-                if(randomNumber===numArray[j]) {
-                return generateRandomPoseHandler();
-              } else {
-                poseArray.push(poses[randomNumber])
-                numArray.push(randomNumber)
+const generateRandomPoseHandler = () => {
+  const poseArray = [];
+  const numArray = [];
 
-                setRandomRoutine(poseArray)
-              }   
-            }
-          };
-        }
-      
+        for(let i = 0; i < 6; i++) {
+            let randomNum = Math.floor(Math.random() * 10) + 0;
+              if(numArray.includes(randomNum)) {
+                return generateRandomPoseHandler();
+              } else{
+                poseArray.push(poses[randomNum])
+                numArray.push(randomNum)
+                setRandomRoutine(poseArray)
+              }
+          }
+      }
+
+
+
+
+  // const generateRandomNumber = () => {
+  //   let randomNum = Math.floor(Math.random() * 10) + 0;
+  //   if(randomNumber.includes(randomNum)) {
+  //     return generateRandomNumber();
+  //   } else{
+  //     setRandomNumber([randomNum]);
+  //   }
+  // }
 
 
 
