@@ -13,14 +13,50 @@ const Routine = props => {
 
   console.log(randomRoutine)
 
-  const generateRandomPoseHandler = () => {
-    const poseArray = [];
-    for(let i = 0; i < 6; i++ ) {
-      let randomNumber = Math.floor(Math.random() * 1) + 0;
-      poseArray.push(poses[randomNumber])
-      setRandomRoutine(poseArray)
-    }
-  };
+//   const generateRandomPoseHandler = () => {
+//         const poseArray = [];
+//         for(let i = 0; i < 6; i++) {
+//           let randomNumber = Math.floor(Math.random() * 10) + 0;
+//           poseArray.push(poses[randomNumber])
+//           numArray.push(randomNumber)
+//           setRandomRoutine(poseArray)
+//         };
+//       }
+
+
+
+    const generateRandomPoseHandler = () => {
+          const poseArray = [];
+          const numArray = [];
+          for(let i = 0; i < 6; i++) {
+            let randomNumber = Math.floor(Math.random() * 10) + 0;
+              for(let j = 0; j < 6; j++ ) {
+                if(randomNumber===numArray[j]) {
+                return generateRandomPoseHandler();
+              } else {
+                poseArray.push(poses[randomNumber])
+                numArray.push(randomNumber)
+
+                setRandomRoutine(poseArray)
+              }   
+            }
+          };
+        }
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
   let routineOutput;
   if (randomRoutine.length > 5) {
