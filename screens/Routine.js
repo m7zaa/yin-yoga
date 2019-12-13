@@ -10,8 +10,10 @@ import BodyText from '../components/BodyText';
 
 const Routine = props => {
   const [randomRoutine, setRandomRoutine] = useState([]);
+  const [poseIndex, setPoseIndex] = useState(0);
   console.log(randomRoutine)
-
+  console.log(poseIndex)
+  
   const generateRandomPoseHandler = () => {
     const poseArray = [];
     const numArray = [];
@@ -28,15 +30,7 @@ const Routine = props => {
   };
 
 
-  const poseCycleHandler = (poseIndex) => {
-    poseIndex= (poseIndex+1);
-    return poseIndex;
-  };
-
   let routineOutput;
-  
-  let poseIndex=0;
-
   if (randomRoutine.length > 5) {
     routineOutput = (
       <View>
@@ -46,12 +40,12 @@ const Routine = props => {
             style={styles.image}
             source={{ uri: randomRoutine[poseIndex].img_url }}
             resizeMode='contain'
-          /> 
+            /> 
           <Button title="Next" 
           onPress={() => {
-            let s= poseIndex
-            s++
-            poseIndex=s
+            let poseI= poseIndex;
+            poseI++
+            setPoseIndex(poseI)
           }} 
           />
         </Card>
