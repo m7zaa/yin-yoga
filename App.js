@@ -4,7 +4,7 @@ import { Text, StyleSheet, View, Button } from 'react-native';
 import Header from './components/Header';
 import Splash from './screens/Splash';
 import Routine from './screens/Routine';
-import CreateFlow from './screens/CreateFlow';
+import CreatePractice from './screens/CreatePractice';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
 import poses from './assets/data/poses.json';
