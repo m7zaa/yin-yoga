@@ -31,7 +31,7 @@ const Routine = props => {
 
 
   let routineOutput;
-  if (randomRoutine.length > 5) {
+  if (randomRoutine.length > 5 ) {
     routineOutput = (
       <View>
         <Card style={styles.poseContainer}>
@@ -45,8 +45,15 @@ const Routine = props => {
           onPress={() => {
             let poseI= poseIndex;
             poseI++
-            setPoseIndex(poseI)
-          }} 
+            if (poseI > 5) {
+              setRandomRoutine([])
+              setPoseIndex(poseI)
+            } else {
+              setPoseIndex(poseI)
+
+            }
+          }
+        } 
           />
         </Card>
       </View>
@@ -54,6 +61,15 @@ const Routine = props => {
   };
 
 
+  let endPractice;
+  if (poseIndex === 6)
+  {
+    endPractice = (
+      <Card>
+        <TitleText>End of Practice</TitleText>
+      </Card>
+    )
+  }
 
 
 
@@ -62,6 +78,7 @@ const Routine = props => {
   return (
     <View style={styles.screen}>
       {routineOutput}
+      {endPractice}
       <Button title="Start"
         onPress=
         {generateRandomPoseHandler}
