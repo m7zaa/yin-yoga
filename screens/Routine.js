@@ -16,6 +16,7 @@ const Routine = props => {
   const [stretchTime, setStretchTime] = useState();
   const [practiceTime, setPracticeTime] = useState();
   const [confirmed, setConfirmed] = useState(false);
+  const [practiceFinished, setPracticeFinished] = useState(false);
 
   
   console.log(randomRoutine)
@@ -45,10 +46,9 @@ const Routine = props => {
         );
           return;
       }
-      setConfirmed(true);
       setPracticeTime(chosenPracticeTime);
       setStretchTime(chosenStretchTime);
-      setOnStart(true);
+      setConfirmed(true);
       // setEnteredValue('');
       Keyboard.dismiss();
       generateRandomPoseHandler();
@@ -74,6 +74,8 @@ const Routine = props => {
 
   const onStartButton = () => {
     setOnStart(true);
+    setPracticeFinished(false)
+
   }
 
   
@@ -156,8 +158,10 @@ const Routine = props => {
               let poseI= poseIndex;
               poseI++
               if (poseI > 5) {
-                setRandomRoutine([])
-                setPoseIndex(poseI)
+                setPracticeFinished(true);
+                setRandomRoutine([]);
+                setConfirmed(false);
+                setOnStart(false)
               } else {
                 setPoseIndex(poseI)
 
@@ -171,10 +175,8 @@ const Routine = props => {
   };
 
   let endPractice;
-  if (poseIndex === 6)
+  if (practiceFinished)
   {
-    setOnStart(false);
-    setConfirmed(false);
     endPractice = (
       <View>
         <Card>
@@ -190,10 +192,6 @@ const Routine = props => {
       {endPractice}
       {startButtonOutput}
       {routineOutput}
-      {/* <Button title="Start"
-        onPress=
-        {generateRandomPoseHandler}
-        color={Colors.accent} /> */}
     </View >    
   )
 };
