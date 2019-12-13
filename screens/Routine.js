@@ -6,8 +6,6 @@ import Card from '../components/Card';
 import TitleText from '../components/TitleText';
 import BodyText from '../components/BodyText';
 
-
-
 const Routine = props => {
   const [randomRoutine, setRandomRoutine] = useState([]);
   const [poseIndex, setPoseIndex] = useState(0);
@@ -15,6 +13,8 @@ const Routine = props => {
   console.log(poseIndex)
   
   const generateRandomPoseHandler = () => {
+    setRandomRoutine([]);
+    setPoseIndex(0);
     const poseArray = [];
     const numArray = [];
     for(let i = 0; i < 6; i++) {
@@ -29,6 +29,17 @@ const Routine = props => {
       }
   };
 
+  let startButtonOutput;
+  if( randomRoutine.length < 5 ) {
+    startButtonOutput = (
+      <View>
+        <Button title="Start Random Practice"
+        onPress=
+        {generateRandomPoseHandler}
+        color={Colors.accent} />
+      </View>
+    );
+  }
 
   let routineOutput;
   if (randomRoutine.length > 5 ) {
@@ -41,52 +52,49 @@ const Routine = props => {
             source={{ uri: randomRoutine[poseIndex].img_url }}
             resizeMode='contain'
             /> 
-          <Button title="Next" 
-          onPress={() => {
-            let poseI= poseIndex;
-            poseI++
-            if (poseI > 5) {
-              setRandomRoutine([])
-              setPoseIndex(poseI)
-            } else {
-              setPoseIndex(poseI)
+            <Button title="Next" 
+            onPress={() => {
+              let poseI= poseIndex;
+              poseI++
+              if (poseI > 5) {
+                setRandomRoutine([])
+                setPoseIndex(poseI)
+              } else {
+                setPoseIndex(poseI)
 
+              }
             }
-          }
-        } 
+          } 
           />
         </Card>
       </View>
     );
   };
 
-
   let endPractice;
   if (poseIndex === 6)
   {
     endPractice = (
-      <Card>
-        <TitleText>End of Practice</TitleText>
-      </Card>
+      <View>
+        <Card>
+          <TitleText>Good job! You have reached the end!</TitleText>
+        </Card>
+
+      </View>
     )
   }
-
-
-
-
-  
   return (
     <View style={styles.screen}>
-      {routineOutput}
       {endPractice}
-      <Button title="Start"
+      {startButtonOutput}
+      {routineOutput}
+      {/* <Button title="Start"
         onPress=
         {generateRandomPoseHandler}
-        color={Colors.accent} />
+        color={Colors.accent} /> */}
     </View >    
   )
 };
-
 
 const styles = StyleSheet.create({
   poseContainer : {
