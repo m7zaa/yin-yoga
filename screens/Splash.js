@@ -23,7 +23,7 @@ const Splash = props => {
 
         <View style={styles.cardsStyle}>
           <Card style={styles.cardContainer}>
-            <BodyText>Custom Flow</BodyText>
+            <BodyText>Custom Practice</BodyText>
             <View style={styles.buttonContainer}>
               <View style={styles.button}>
                 <Button title="Start" 

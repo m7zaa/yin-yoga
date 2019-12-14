@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Button, Image, Text, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, StyleSheet, Button, Image, Text, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
 import poses from '../assets/data/poses.json';
 import Colors from '../constants/colors';
 import Card from '../components/Card';
@@ -12,7 +12,7 @@ import NumberContainer from '../components/NumberContainer';
 const Routine = props => {
   const [randomRoutine, setRandomRoutine] = useState([]);
   const [poseIndex, setPoseIndex] = useState(0);
-  const [onStart, setOnStart] = useState(false);
+  const [onStart, setOnStart] = useState(true);
   const [stretchTime, setStretchTime] = useState();
   const [practiceTime, setPracticeTime] = useState();
   const [confirmed, setConfirmed] = useState(false);
@@ -35,6 +35,7 @@ const Routine = props => {
   };
   const resetInputHandler = () => {
       setPracticeTime('');
+      setStretchTime('');
       setConfirmed(false);
 
   };
@@ -97,32 +98,40 @@ const Routine = props => {
     <View>
       <Card style={styles.inputContainer}>
         <Text>How long would you like to hold each pose?</Text>
-        <Input 
-            style={styles.input} 
-            blurOnSubmit 
-            autoCorrect={false} 
-            keyboardType="number-pad" 
-            maxLength={2} 
-            onChangeText= {stretchInputHandler}
-            value={stretchTime}
-        />
-        <Text>How long do you want to practice?</Text>
-        <Input 
-            style={styles.input} 
-            blurOnSubmit 
-            autoCorrect={false} 
-            keyboardType="number-pad" 
-            maxLength={2} 
-            onChangeText= {practiceInputHandler}
-            value={practiceTime}
-        />
+        <View style={styles.inputLine}>
+          <Input 
+              placeholder={'minutes'}
+              style={styles.input} 
+              blurOnSubmit 
+              autoCorrect={false} 
+              keyboardType="number-pad" 
+              maxLength={2} 
+              onChangeText= {stretchInputHandler}
+              value={stretchTime}
+          />
+          {/* <Text style={styles.minute}>minutes</Text> */}
+        </View>
+          <Text>How long do you want to practice?</Text>
+        <View style={styles.inputLine}>
+          <Input 
+              placeholder={'minutes'}
+              style={styles.input} 
+              blurOnSubmit 
+              autoCorrect={false} 
+              keyboardType="number-pad" 
+              maxLength={2} 
+              onChangeText= {practiceInputHandler}
+              value={practiceTime}
+              />
+              {/* <Text>minutes</Text> */}
+        </View>
 
         <View style={styles.buttonContainer}>
             <View style={styles.button}>
-                <Button title="Reset" onPress={resetInputHandler} color={Colors.accent1}/>
+                <Button title="Reset" onPress={resetInputHandler} color={Colors.primary}/>
             </View>
             <View style={styles.button}>
-                <Button title="Confirm" onPress={confirmInputHandler} color={Colors.primary}/>
+                <Button title="Confirm" onPress={confirmInputHandler} color={Colors.accent3}/>
             </View>
         </View>
       </Card>
@@ -187,12 +196,19 @@ const Routine = props => {
     )
   }
   return (
+    <TouchableWithoutFeedback onPress={()=> {
+      Keyboard.dismiss();
+      // setOnStart(false);
+    }}>
+
     <View style={styles.screen}>
       {timeInputs}
       {endPractice}
       {startButtonOutput}
       {routineOutput}
     </View >    
+    </TouchableWithoutFeedback>
+    
   )
 };
 
@@ -225,7 +241,7 @@ const styles = StyleSheet.create({
   input: {
     width: 50,
     textAlign: 'center',
-
+    
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -236,6 +252,14 @@ const styles = StyleSheet.create({
   button: {
     width: 100 
  },
+ inputLine: {
+    flexDirection: 'row',
+    textAlign: 'center',
+
+ },
+ minutes: {
+   marginTop: 10
+ }
 });
 
 
