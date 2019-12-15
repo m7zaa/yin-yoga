@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Button } from 'react-native';
+import { View, StyleSheet, Button, TouchableOpacity } from 'react-native';
 import Colors from '../constants/colors.js';
 import TitleText from '../components/TitleText';
 
@@ -8,7 +8,9 @@ const Header = props => {
   return (
     <View style={styles.header}>
       <View style={styles.headerTitle}>
-        <TitleText>{props.title}</TitleText>
+        <TouchableOpacity onPress={props.onGoHomeHandler}>
+          <TitleText>{props.title}</TitleText>
+        </TouchableOpacity>
 
         <Button style={styles.homeButton} title="Home" onPress={props.onGoHomeHandler} />
       </View>

@@ -12,12 +12,14 @@ import NumberContainer from '../components/NumberContainer';
 const Routine = props => {
   const [randomRoutine, setRandomRoutine] = useState([]);
   const [poseIndex, setPoseIndex] = useState(0);
-  const [onStart, setOnStart] = useState(true);
-  const [stretchTime, setStretchTime] = useState();
-  const [practiceTime, setPracticeTime] = useState();
+  const [onStart, setOnStart] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
   const [practiceFinished, setPracticeFinished] = useState(false);
-
+  const [secondInput, setSecondInput] = useState(false);
+  const [firstInput, setFirstInput] = useState(true);
+  const [stretchTime, setStretchTime] = useState();
+  const [practiceTime, setPracticeTime] = useState();
+  
   
   console.log(randomRoutine)
   console.log(poseIndex)
@@ -39,24 +41,39 @@ const Routine = props => {
       setConfirmed(false);
 
   };
-  const confirmInputHandler = () => {
-    const chosenStretchTime = parseInt(stretchTime);
+  const confirmFirstInputHandler = () => {
     const chosenPracticeTime = parseInt(practiceTime);
-      if(isNaN(chosenStretchTime || chosenPracticeTime) || (chosenStretchTime || chosenPracticeTime)<= 0 || (chosenStretchTime || chosenPracticeTime) > 99) {
+      if(isNaN(chosenPracticeTime) || (chosenPracticeTime)<= 0 || (chosenPracticeTime) > 99) {
         Alert.alert('Invalid number!', 'Number has to be a number between 1 and 99.', [{text: 'Okay', style: 'destructive',    onPress: resetInputHandler}]
         );
           return;
       }
       setPracticeTime(chosenPracticeTime);
-      setStretchTime(chosenStretchTime);
-      setConfirmed(true);
       // setEnteredValue('');
       Keyboard.dismiss();
-      generateRandomPoseHandler();
+      setSecondInput(true);
+      setFirstInput(false);
   };
 
+  const confirmSecondInputHandler = () => {
+    const chosenStretchTime = parseInt(stretchTime);
+    const chosenPracticeTime = parseInt(practiceTime);
+    if (isNaN(chosenStretchTime) || (chosenStretchTime) <= 0 || (chosenStretchTime) > 99) {
+      Alert.alert('Invalid number!', 'Number has to be a number between 1 and 99.', [{ text: 'Okay', style: 'destructive', onPress: resetInputHandler }]
+      );
+      return;
+    }
+    setStretchTime(chosenStretchTime);
+    // setEnteredValue('');
+    Keyboard.dismiss();
+    setSecondInput(false);
+    setFirstInput(false);
+    setConfirmed(true);
+    generateRandomPoseHandler();
+  };
+
+
   const generateRandomPoseHandler = () => {
-    setOnStart(true);
     setRandomRoutine([]);
     setPoseIndex(0);
     const poseArray = [];
@@ -74,14 +91,12 @@ const Routine = props => {
   };
 
   const onStartButton = () => {
-    setOnStart(true);
-    setPracticeFinished(false)
-
   }
 
   
   let startButtonOutput;
-  if(!onStart) {
+
+  if(onStart ) {
     startButtonOutput = (
       <View>
         <Button title="Start Random Practice"
@@ -90,28 +105,15 @@ const Routine = props => {
         color={Colors.accent} />
       </View>
     );
-  }
+  };
 
-  let timeInputs;
-  if(onStart && !confirmed) {
-    timeInputs = (
-    <View>
+
+  let firstTimeInput;
+  if(firstInput === true) {
+    firstTimeInput = (
+      <View style={styles.screen}>
       <Card style={styles.inputContainer}>
-        <Text>How long would you like to hold each pose?</Text>
-        <View style={styles.inputLine}>
-          <Input 
-              placeholder={'minutes'}
-              style={styles.input} 
-              blurOnSubmit 
-              autoCorrect={false} 
-              keyboardType="number-pad" 
-              maxLength={2} 
-              onChangeText= {stretchInputHandler}
-              value={stretchTime}
-          />
-          {/* <Text style={styles.minute}>minutes</Text> */}
-        </View>
-          <Text>How long do you want to practice?</Text>
+        <Text>How long do you want to practice?</Text>
         <View style={styles.inputLine}>
           <Input 
               placeholder={'minutes'}
@@ -123,7 +125,6 @@ const Routine = props => {
               onChangeText= {practiceInputHandler}
               value={practiceTime}
               />
-              {/* <Text>minutes</Text> */}
         </View>
 
         <View style={styles.buttonContainer}>
@@ -131,28 +132,47 @@ const Routine = props => {
                 <Button title="Reset" onPress={resetInputHandler} color={Colors.primary}/>
             </View>
             <View style={styles.button}>
-                <Button title="Confirm" onPress={confirmInputHandler} color={Colors.accent3}/>
+                <Button title="Confirm" onPress={confirmFirstInputHandler} color={Colors.accent3}/>
             </View>
         </View>
       </Card>
     </View>
   );
-  }
+  };
 
-
-
-
-
-
-  
-
-
-
-
-
+  let secondTimeInput;
+  if (secondInput) {
+    secondTimeInput = (
+      <View style={styles.screen}>
+        <Card style={styles.inputContainer}>
+          <Text>How long would you like to hold each pose?</Text>
+          <View style={styles.inputLine}>
+            <Input
+              placeholder={'minutes'}
+              style={styles.input}
+              blurOnSubmit
+              autoCorrect={false}
+              keyboardType="number-pad"
+              maxLength={2}
+              onChangeText={stretchInputHandler}
+              value={stretchTime}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            <View style={styles.button}>
+              <Button title="Reset" onPress={resetInputHandler} color={Colors.primary} />
+            </View>
+            <View style={styles.button}>
+              <Button title="Confirm" onPress={confirmSecondInputHandler} color={Colors.accent3} />
+            </View>
+          </View>
+        </Card>
+      </View>
+    );
+  };
 
   let routineOutput;
-  if (confirmed && onStart && randomRoutine.length > 5) {
+  if (confirmed) {
     routineOutput = (
       <View>
         <Card style={styles.poseContainer}>
@@ -183,6 +203,7 @@ const Routine = props => {
     );
   };
 
+
   let endPractice;
   if (practiceFinished)
   {
@@ -194,7 +215,9 @@ const Routine = props => {
 
       </View>
     )
-  }
+  };
+
+
   return (
     <TouchableWithoutFeedback onPress={()=> {
       Keyboard.dismiss();
@@ -202,7 +225,8 @@ const Routine = props => {
     }}>
 
     <View style={styles.screen}>
-      {timeInputs}
+      {firstTimeInput}
+      {secondTimeInput}
       {endPractice}
       {startButtonOutput}
       {routineOutput}
@@ -226,8 +250,10 @@ const styles = StyleSheet.create({
   }, 
   screen: {
     flex: 1,
-    padding: 10,
+    // padding: 10,
+    justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 80
   },
   title: {
     fontSize: 20,
@@ -237,6 +263,7 @@ const styles = StyleSheet.create({
     width: 300,
     maxWidth: '80%',
     alignItems: 'center',
+    
   },
   input: {
     width: 50,
