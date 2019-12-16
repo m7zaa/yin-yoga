@@ -78,7 +78,6 @@ const Routine = props => {
       }, 1000);
     } else if (!isActive && remainingSecs !== 0) {
       clearInterval(interval);
-      
     } 
     return () => clearInterval(interval);
   }, [isActive, remainingSecs]);
@@ -89,31 +88,48 @@ const Routine = props => {
 
   if ((isActive && remainingSecs === 0)) {
     handlePlaySound();
+    setEndPose(true);
+    setConfirmed(false);
+    setIsActive(false);
+
+
   }
-  let nextButton;
-  if (isActive && remainingSecs === 0) {
-    nextButton = (
+  let restScreen;
+  if (endPose) {
+    restScreen = (
       <View>
-        <Button title="Next"
-          onPress={() => {
-            setRemainingSecs({ stretchTime }.stretchTime * 60);
-            setIsActive(false);
+
+        <Card style={styles.poseContainer}>
+          <TitleText style={styles.title}>{poses[5].english_name} Pose</TitleText>
+          <Image
+            style={styles.image}
+            source={{ uri: poses[5].img_url }}
+            resizeMode='contain'
+          />
 
 
-            let poseI = poseIndex;
-            poseI++
-            if (poseI > 5) {
-              setPracticeFinished(true);
-              setRandomRoutine([]);
-              setConfirmed(false);
-              setOnStart(false)
-            } else {
-              setPoseIndex(poseI)
 
-            }
-          }
-          }
-        />
+          <Button title="Next" 
+              onPress={() => {
+                setRemainingSecs({ stretchTime }.stretchTime * 60);
+                setIsActive(false);
+                setConfirmed(true);
+                setEndPose(false);
+                let poseI= poseIndex;
+                poseI++
+                if (poseI > 5) {
+                  setPracticeFinished(true);
+                  setRandomRoutine([]);
+                  setConfirmed(false);
+                  setOnStart(false)
+                } else {
+                  setPoseIndex(poseI)
+
+                }
+              }
+            } 
+            />
+        </Card>
       </View>
     )
   }
@@ -180,6 +196,7 @@ const Routine = props => {
     setConfirmed(true);
     generateRandomPoseHandler();
   };
+
   const generateRandomPoseHandler = () => {
     setRandomRoutine([]);
     setPoseIndex(0);
@@ -196,11 +213,12 @@ const Routine = props => {
           }
       }
   };
+
   const onStartButton = () => {
     setIsActive(false);
   }
   let startButtonOutput;
-  if(onStart ) {
+  if(onStart) {
     startButtonOutput = (
       <View>
         <Button title="Start Random Practice"
@@ -211,7 +229,7 @@ const Routine = props => {
     );
   };
   let firstTimeInput;
-  if(firstInput === true) {
+  if(firstInput) {
     firstTimeInput = (
       <View style={styles.screen}>
       <Card style={styles.inputContainer}>
@@ -272,7 +290,7 @@ const Routine = props => {
   };
 
   let routineOutput;
-  if (confirmed) {
+  if (confirmed && !endPose) {
     routineOutput = (
       <View>
         <Card style={styles.poseContainer}>
@@ -285,18 +303,20 @@ const Routine = props => {
 
             {/* //////////// */}
           <BodyText style={styles.timerText}>{(isActive && remainingSecs===0) ? 'Times Up!' :`${mins}:${secs}`}</BodyText>
-          
+          <View>
             <TouchableOpacity 
             onPress={toggle} 
             style={styles.button}>
-              <BodyText style={styles.buttonText}>{isActive ? 'Pause' : 'Start'}</BodyText>
+            <TitleText >{isActive ? 'Pause' : 'Start'}</TitleText>
             </TouchableOpacity>
             <TouchableOpacity onPress={reset} style={[styles.button, styles.buttonReset]}>
-              <BodyText style={[styles.buttonText, styles.buttonTextReset]}>Reset</BodyText>
+              <BodyText>Reset</BodyText>
             </TouchableOpacity>
+
+          </View>
             {/* ////////////////// */}
           
-            <Button title="Next" 
+            {/* <Button title="Next" 
             onPress={() => {
               let poseI= poseIndex;
               poseI++
@@ -311,7 +331,7 @@ const Routine = props => {
               }
             }
           } 
-          />
+          /> */}
         </Card>
       </View>
     );
@@ -343,8 +363,8 @@ const Routine = props => {
       {secondTimeInput}
       {endPractice}
       {startButtonOutput}
+      {restScreen}
       {routineOutput}
-      {nextButton}
     </View >    
     </TouchableWithoutFeedback>
     
