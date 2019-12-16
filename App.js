@@ -1,13 +1,15 @@
 
 import React, { useState } from 'react';
-import { Text, StyleSheet, View, Button } from 'react-native';
+import { Text, StyleSheet, View, Button, ImageBackground } from 'react-native';
 import Header from './components/Header';
 import Splash from './screens/Splash';
 import Routine from './screens/Routine';
 import CreatePractice from './screens/CreatePractice';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
-import poses from './assets/data/poses.json';
+import { LinearGradient } from 'expo';
+// import LinearGradient from "react-native-linear-gradient";
+
 
 
 
@@ -43,19 +45,22 @@ export default function App() {
   }
 
   let content = <Splash onStartRandomFlow={startRandomFlowHandler} />;
-
   if (!splash) {
     content = <Routine onGoHomeHandler={goHomeHandler} />
   }
 
-  const generateRandomRoutineHandler = () => {}
 
   return (
+
     <View style={styles.container}>
-      <Header title="Shaolin Yin" 
-      onGoHomeHandler={goHomeHandler}
+      <Header title="Shaolin Yin"
+        onGoHomeHandler={goHomeHandler}
       />
+            <ImageBackground 
+            source={require('./assets/background.jpg')} 
+            style={{width: '100%', height: '100%'}}>
       {content}
+      </ImageBackground>
     </View>
   );
 }
@@ -63,7 +68,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     // alignItems: 'center',
     // justifyContent: 'center',
   },

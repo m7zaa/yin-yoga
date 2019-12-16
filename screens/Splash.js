@@ -5,6 +5,7 @@ import Colors from '../constants/colors';
 import Card from '../components/Card';
 import TitleText from '../components/TitleText';
 import BodyText from '../components/BodyText';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Splash = props => {
 
@@ -22,18 +23,24 @@ const Splash = props => {
           />
 
         <View style={styles.cardsStyle}>
-          <Card style={styles.cardContainer}>
-            <BodyText>Custom Practice</BodyText>
-            <View style={styles.buttonContainer}>
-              <View style={styles.button}>
-                <Button title="Start" 
-                // onPress={} 
-                color={Colors.accent} />
+          <TouchableOpacity>
+            <Card style={styles.cardContainer}>
+              <TitleText>Custom</TitleText>
+              <View style={styles.buttonContainer}>
+                <View style={styles.button}>
+                  <Button title="Start" 
+                  // onPress={} 
+                  color={Colors.accent}
+                  />
+                </View>
               </View>
-            </View>
-          </Card>
+            </Card>
+
+          </TouchableOpacity>
+          <TouchableOpacity>
+
           <Card style={styles.cardContainer}>
-            <BodyText>Quick Start</BodyText>
+            <TitleText>Quick Start</TitleText>
             <View style={styles.buttonContainer}>
               <View style={styles.button}>
                 <Button title="Start"
@@ -43,6 +50,7 @@ const Splash = props => {
               </View>
             </View>
           </Card>
+          </TouchableOpacity>
         </View>        
       {/* </Modal> */}
     </View>
@@ -83,19 +91,26 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     paddingHorizontal: 15,
+    opacity: 1
+
   },
   cardContainer: {
     width: 150,
     maxWidth: '80%',
     alignItems: 'center',
-    margin: 10
+    margin: 10,
+    // opacity: .8
+    backgroundColor: 'transparent',
+    opacity: 1,
   },
   button: {
-    width: 100
+    width: 100,
+    opacity:1
   },
   input: {
     width: 50,
     textAlign: 'center',
+    opacity: 1
 
   },
   summaryContainer: {
@@ -109,6 +124,10 @@ const styles = StyleSheet.create({
     width: '80%',
     height: 300,
     marginVertical: 40
+  },
+  button: {
+    opacity: 10
+
   }
 
 });
