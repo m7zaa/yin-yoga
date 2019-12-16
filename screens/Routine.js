@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Button, Image, Text, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, Button, Image, Text, TouchableWithoutFeedback, Keyboard, Alert, StatusBar, TouchableOpacity, Dimensions } from 'react-native';
 import poses from '../assets/data/poses.json';
 import Colors from '../constants/colors';
 import Card from '../components/Card';
@@ -7,6 +7,8 @@ import TitleText from '../components/TitleText';
 import BodyText from '../components/BodyText';
 import Input from '../components/Input';
 import NumberContainer from '../components/NumberContainer';
+
+
 
 
 const Routine = props => {
@@ -20,10 +22,51 @@ const Routine = props => {
   const [stretchTime, setStretchTime] = useState();
   const [practiceTime, setPracticeTime] = useState();
   
+  //Countdown timer
+  const time = ({ stretchTime }.stretchTime);
+
+  const formatNumber = number => `0${number}`.slice(-2);
+  const getRemaining = (time) => {
+
+    const mins = Math.floor(time / 60);
+    const secs = time - mins * 60;
+    return { mins: formatNumber(mins), secs: formatNumber(secs) };
+  }
+  ///////////////
+  //Countdown timer
+              const [remainingSecs, setRemainingSecs] = useState(0);
+              const [isActive, setIsActive] = useState(false);
+              const { mins, secs } = getRemaining(remainingSecs);
+              
+              const toggle = () => {
+                const time = { stretchTime }.stretchTime * 60;
+                setRemainingSecs(time);
+                setIsActive(!isActive);
+              }
+
+              const reset = () => {
+                const time = {stretchTime}.stretchTime * 60;
+                setRemainingSecs(time);
+                setIsActive(false);
+              }
+              useEffect(() => {
+                let interval = null;
+                if (isActive) {
+                  interval = setInterval(() => {
+                    setRemainingSecs(remainingSecs => remainingSecs - 1);
+                  }, 1000);
+                } else if (!isActive && remainingSecs !== 0) {
+                  clearInterval(interval);
+                }
+                return () => clearInterval(interval);
+              }, [isActive, remainingSecs]);
   
-  console.log(randomRoutine)
-  console.log(poseIndex)
-  
+////////////////////////////////////////
+
+  console.log(randomRoutine);
+  console.log({stretchTime}.stretchTime);
+  // console.log(time.stretchTime);
+
 
   const stretchInputHandler = inputText => {
     setStretchTime(inputText.replace(/[^0-9]/g, ''));
@@ -182,6 +225,19 @@ const Routine = props => {
             source={{ uri: randomRoutine[poseIndex].img_url }}
             resizeMode='contain'
             /> 
+
+            {/* //////////// */}
+            <Text>{`${mins}:${secs}`}</Text>
+            <TouchableOpacity 
+            onPress={toggle} 
+            style={styles.button}>
+              <Text style={styles.buttonText}>{isActive ? 'Pause' : 'Start'}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={reset} style={[styles.button, styles.buttonReset]}>
+              <Text style={[styles.buttonText, styles.buttonTextReset]}>Reset</Text>
+            </TouchableOpacity>
+            {/* ////////////////// */}
+          
             <Button title="Next" 
             onPress={() => {
               let poseI= poseIndex;
