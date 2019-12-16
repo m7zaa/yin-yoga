@@ -22,44 +22,46 @@ const Routine = props => {
   const [stretchTime, setStretchTime] = useState();
   const [practiceTime, setPracticeTime] = useState();
   
-  //Countdown timer
-  const time = ({ stretchTime }.stretchTime);
+  ///////////////
+  //Countdown timer  const time = ({ stretchTime }.stretchTime);
 
   const formatNumber = number => `0${number}`.slice(-2);
+  
+  const toggle = () => {
+    const time = { stretchTime }.stretchTime * 60;
+    setRemainingSecs(time);
+    setIsActive(!isActive);
+  }
   const getRemaining = (time) => {
 
-    const mins = Math.floor(time / 60);
-    const secs = time - mins * 60;
-    return { mins: formatNumber(mins), secs: formatNumber(secs) };
+      const mins = Math.floor(time / 60);
+      const secs = time - mins * 60;
+      return { mins: formatNumber(mins), secs: formatNumber(secs) };
+    
   }
-  ///////////////
-  //Countdown timer
-              const [remainingSecs, setRemainingSecs] = useState(0);
-              const [isActive, setIsActive] = useState(false);
-              const { mins, secs } = getRemaining(remainingSecs);
-              
-              const toggle = () => {
-                const time = { stretchTime }.stretchTime * 60;
-                setRemainingSecs(time);
-                setIsActive(!isActive);
-              }
+  const [remainingSecs, setRemainingSecs] = useState(0);
+  const [isActive, setIsActive] = useState(false);
+  const { mins, secs } = getRemaining(remainingSecs);
+  
 
-              const reset = () => {
-                const time = {stretchTime}.stretchTime * 60;
-                setRemainingSecs(time);
-                setIsActive(false);
-              }
-              useEffect(() => {
-                let interval = null;
-                if (isActive) {
-                  interval = setInterval(() => {
-                    setRemainingSecs(remainingSecs => remainingSecs - 1);
-                  }, 1000);
-                } else if (!isActive && remainingSecs !== 0) {
-                  clearInterval(interval);
-                }
-                return () => clearInterval(interval);
-              }, [isActive, remainingSecs]);
+  const reset = () => {
+    const time = {stretchTime}.stretchTime * 60;
+    setRemainingSecs(time);
+    setIsActive(false);
+  }
+  useEffect(() => {
+    let interval = null;
+    if (isActive && remainingSecs> 0) {
+      interval = setInterval(() => {
+        setRemainingSecs(remainingSecs => remainingSecs - 1);
+      }, 1000);
+    } else if (!isActive && remainingSecs !== 0) {
+      clearInterval(interval);
+    } 
+    
+    return () => clearInterval(interval);
+  }, [isActive, remainingSecs]);
+ 
   
 ////////////////////////////////////////
 
@@ -134,6 +136,7 @@ const Routine = props => {
   };
 
   const onStartButton = () => {
+    setIsActive(false);
   }
 
   
@@ -156,7 +159,7 @@ const Routine = props => {
     firstTimeInput = (
       <View style={styles.screen}>
       <Card style={styles.inputContainer}>
-        <Text>How long do you want to practice?</Text>
+        <BodyText>How long do you want to practice?</BodyText>
         <View style={styles.inputLine}>
           <Input 
               placeholder={'minutes'}
@@ -188,7 +191,7 @@ const Routine = props => {
     secondTimeInput = (
       <View style={styles.screen}>
         <Card style={styles.inputContainer}>
-          <Text>How long would you like to hold each pose?</Text>
+          <BodyText>How long would you like to hold each pose?</BodyText>
           <View style={styles.inputLine}>
             <Input
               placeholder={'minutes'}
@@ -227,14 +230,14 @@ const Routine = props => {
             /> 
 
             {/* //////////// */}
-            <Text>{`${mins}:${secs}`}</Text>
+          <BodyText style={styles.timerText}>{`${mins}:${secs}`}</BodyText>
             <TouchableOpacity 
             onPress={toggle} 
             style={styles.button}>
-              <Text style={styles.buttonText}>{isActive ? 'Pause' : 'Start'}</Text>
+              <BodyText style={styles.buttonText}>{isActive ? 'Pause' : 'Start'}</BodyText>
             </TouchableOpacity>
             <TouchableOpacity onPress={reset} style={[styles.button, styles.buttonReset]}>
-              <Text style={[styles.buttonText, styles.buttonTextReset]}>Reset</Text>
+              <BodyText style={[styles.buttonText, styles.buttonTextReset]}>Reset</BodyText>
             </TouchableOpacity>
             {/* ////////////////// */}
           
@@ -342,7 +345,27 @@ const styles = StyleSheet.create({
  },
  minutes: {
    marginTop: 10
- }
+ },
+
+
+
+
+
+  buttonText: {
+    fontSize: 10,
+    color: '#B9AAFF'
+  },
+  timerText: {
+    fontSize: 40,
+    // marginBottom: 20
+  },
+  // buttonReset: {
+  //   // marginTop: 20,
+  //   borderColor: "#FF851B"
+  // },
+  // buttonTextReset: {
+  //   color: "#FF851B"
+  // }
 });
 
 
