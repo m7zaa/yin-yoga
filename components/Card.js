@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.26,
     //Android-only shadow
     elevation: 5,
-
     backgroundColor: 'white',
     padding: 20,
     borderRadius: 10,

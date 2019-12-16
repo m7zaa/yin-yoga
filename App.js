@@ -56,10 +56,10 @@ export default function App() {
       <Header title="Shaolin Yin"
         onGoHomeHandler={goHomeHandler}
       />
-            <ImageBackground 
-            source={require('./assets/background.jpg')} 
-            style={{width: '100%', height: '100%'}}>
-      {content}
+      <ImageBackground 
+      source={require('./assets/background.jpg')} 
+      style={{width: '100%', height: '100%'}}>
+        {content}
       </ImageBackground>
     </View>
   );

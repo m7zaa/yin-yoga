@@ -30,14 +30,15 @@ const Splash = props => {
                 <View style={styles.button}>
                   <Button title="Start" 
                   // onPress={} 
-                  color={Colors.accent}
+                  color={Colors.accent2}
                   />
                 </View>
               </View>
             </Card>
 
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress=
+            {props.onStartRandomFlow}>
 
           <Card style={styles.cardContainer}>
             <TitleText>Quick Start</TitleText>
@@ -46,7 +47,7 @@ const Splash = props => {
                 <Button title="Start"
                   onPress=
                   {props.onStartRandomFlow} 
-                  color={Colors.accent} />
+                  color={Colors.accent2} />
               </View>
             </View>
           </Card>
@@ -80,6 +81,7 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     padding: 10,
+    paddingVertical: 40,
     alignItems: 'center',
   },
   title: {
@@ -99,7 +101,6 @@ const styles = StyleSheet.create({
     maxWidth: '80%',
     alignItems: 'center',
     margin: 10,
-    // opacity: .8
     backgroundColor: 'transparent',
     opacity: 1,
   },
