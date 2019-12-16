@@ -99,10 +99,10 @@ const Routine = props => {
     restScreen = (
       <View>
         <Card style={styles.poseContainer}>
-          <TitleText style={styles.title}>{poses[5].english_name} Pose</TitleText>
+          <TitleText style={styles.title}>{poses[33].english_name} Pose</TitleText>
           <Image
             style={styles.image}
-            source={{ uri: poses[5].img_url }}
+            source={{ uri: poses[33].img_url }}
             resizeMode='contain'
           />
           <Button title="Next" 
@@ -149,7 +149,7 @@ const Routine = props => {
 
 
   console.log(randomRoutine);
-
+  console.log(({ practiceTime }.practiceTime) / ({ stretchTime }.stretchTime));
 
   const stretchInputHandler = inputText => {
     setStretchTime(inputText.replace(/[^0-9]/g, ''));
@@ -197,8 +197,9 @@ const Routine = props => {
     setPoseIndex(0);
     const poseArray = [];
     const numArray = [];
-    for(let i = 0; i < 6; i++) {
-        let randomNum = Math.floor(Math.random() * 10) + 0;
+    const poseQuant = ({ practiceTime }.practiceTime) / ({ stretchTime }.stretchTime)
+    for(let i = 0; i < poseQuant; i++) {
+        let randomNum = Math.floor(Math.random() * 33) + 0;
           if(numArray.includes(randomNum)) {
             return generateRandomPoseHandler();
           } else{
@@ -290,7 +291,10 @@ const Routine = props => {
       <View>
         <Card style={styles.poseContainer}>
           <View style={styles.titleView}>
-          <TitleText style={styles.title}>{randomRoutine[poseIndex].english_name} Pose</TitleText>
+            <Text style={styles.title} 
+            adjustsFontSizeToFit numberOfLines={1} 
+            >
+            {randomRoutine[poseIndex].english_name} Pose</Text>
 
           </View>
           <Image
@@ -375,9 +379,9 @@ const styles = StyleSheet.create({
     marginBottom: 80
   },
   title: {
-    fontSize: 20,
     marginVertical: 10,
-    fontSize: 40,
+    fontFamily: 'open-sans-bold',
+    fontSize: 40
   },
   inputContainer: {
     width: 300,
