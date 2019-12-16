@@ -7,6 +7,8 @@ import TitleText from '../components/TitleText';
 import BodyText from '../components/BodyText';
 import Input from '../components/Input';
 import NumberContainer from '../components/NumberContainer';
+import { Assets } from 'react-navigation-stack';
+import { Audio } from 'expo-av';
 
 
 
@@ -21,29 +23,48 @@ const Routine = props => {
   const [firstInput, setFirstInput] = useState(true);
   const [stretchTime, setStretchTime] = useState();
   const [practiceTime, setPracticeTime] = useState();
+  const [remainingSecs, setRemainingSecs] = useState(0);
+  const [isActive, setIsActive] = useState(false);
+  const [endPose, setEndPose] = useState(false);
+
   
+  
+  
+  
+  const handlePlaySound = async note => {
+    const soundObject = new Audio.Sound()
+  
+    try {
+      let source = require('../assets/bell.wav')
+      await soundObject.loadAsync(source)
+      await soundObject
+        .playAsync()
+        .then(async playbackStatus => {
+          setTimeout(() => {
+            soundObject.unloadAsync()
+          }, playbackStatus.playableDurationMillis)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    } catch (error) {
+      console.log(error)
+    }
+  }
   ///////////////
   //Countdown timer  const time = ({ stretchTime }.stretchTime);
-
   const formatNumber = number => `0${number}`.slice(-2);
-  
   const toggle = () => {
     const time = { stretchTime }.stretchTime * 60;
     setRemainingSecs(time);
     setIsActive(!isActive);
   }
   const getRemaining = (time) => {
-
-      const mins = Math.floor(time / 60);
-      const secs = time - mins * 60;
-      return { mins: formatNumber(mins), secs: formatNumber(secs) };
-    
+    const mins = Math.floor(time / 60);
+    const secs = time - mins * 60;
+    return { mins: formatNumber(mins), secs: formatNumber(secs) };
   }
-  const [remainingSecs, setRemainingSecs] = useState(0);
-  const [isActive, setIsActive] = useState(false);
   const { mins, secs } = getRemaining(remainingSecs);
-  
-
   const reset = () => {
     const time = {stretchTime}.stretchTime * 60;
     setRemainingSecs(time);
@@ -57,34 +78,78 @@ const Routine = props => {
       }, 1000);
     } else if (!isActive && remainingSecs !== 0) {
       clearInterval(interval);
+      
     } 
-    
     return () => clearInterval(interval);
   }, [isActive, remainingSecs]);
- 
-  
 ////////////////////////////////////////
 
+
+
+
+  if ((isActive && remainingSecs === 0)) {
+    handlePlaySound();
+  }
+  let nextButton;
+  if (isActive && remainingSecs === 0) {
+    nextButton = (
+      <View>
+        <Button title="Next"
+          onPress={() => {
+            setRemainingSecs({ stretchTime }.stretchTime * 60);
+            setIsActive(false);
+
+
+            let poseI = poseIndex;
+            poseI++
+            if (poseI > 5) {
+              setPracticeFinished(true);
+              setRandomRoutine([]);
+              setConfirmed(false);
+              setOnStart(false)
+            } else {
+              setPoseIndex(poseI)
+
+            }
+          }
+          }
+        />
+      </View>
+    )
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   console.log(randomRoutine);
-  console.log({stretchTime}.stretchTime);
-  // console.log(time.stretchTime);
 
 
   const stretchInputHandler = inputText => {
     setStretchTime(inputText.replace(/[^0-9]/g, ''));
-    // setStretchTime(inputText.replace(/[^0-9]/g, ''));
-
   };  
   const practiceInputHandler = inputText => {
     setPracticeTime(inputText.replace(/[^0-9]/g, ''));
-    // setStretchTime(inputText.replace(/[^0-9]/g, ''));
-
   };
   const resetInputHandler = () => {
       setPracticeTime('');
       setStretchTime('');
       setConfirmed(false);
-
   };
   const confirmFirstInputHandler = () => {
     const chosenPracticeTime = parseInt(practiceTime);
@@ -99,7 +164,6 @@ const Routine = props => {
       setSecondInput(true);
       setFirstInput(false);
   };
-
   const confirmSecondInputHandler = () => {
     const chosenStretchTime = parseInt(stretchTime);
     const chosenPracticeTime = parseInt(practiceTime);
@@ -116,8 +180,6 @@ const Routine = props => {
     setConfirmed(true);
     generateRandomPoseHandler();
   };
-
-
   const generateRandomPoseHandler = () => {
     setRandomRoutine([]);
     setPoseIndex(0);
@@ -134,14 +196,10 @@ const Routine = props => {
           }
       }
   };
-
   const onStartButton = () => {
     setIsActive(false);
   }
-
-  
   let startButtonOutput;
-
   if(onStart ) {
     startButtonOutput = (
       <View>
@@ -152,8 +210,6 @@ const Routine = props => {
       </View>
     );
   };
-
-
   let firstTimeInput;
   if(firstInput === true) {
     firstTimeInput = (
@@ -172,7 +228,6 @@ const Routine = props => {
               value={practiceTime}
               />
         </View>
-
         <View style={styles.buttonContainer}>
             <View style={styles.button}>
                 <Button title="Reset" onPress={resetInputHandler} color={Colors.primary}/>
@@ -185,7 +240,6 @@ const Routine = props => {
     </View>
   );
   };
-
   let secondTimeInput;
   if (secondInput) {
     secondTimeInput = (
@@ -230,7 +284,8 @@ const Routine = props => {
             /> 
 
             {/* //////////// */}
-          <BodyText style={styles.timerText}>{`${mins}:${secs}`}</BodyText>
+          <BodyText style={styles.timerText}>{(isActive && remainingSecs===0) ? 'Times Up!' :`${mins}:${secs}`}</BodyText>
+          
             <TouchableOpacity 
             onPress={toggle} 
             style={styles.button}>
@@ -289,6 +344,7 @@ const Routine = props => {
       {endPractice}
       {startButtonOutput}
       {routineOutput}
+      {nextButton}
     </View >    
     </TouchableWithoutFeedback>
     
