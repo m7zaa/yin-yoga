@@ -98,7 +98,6 @@ const Routine = props => {
   if (endPose) {
     restScreen = (
       <View>
-
         <Card style={styles.poseContainer}>
           <TitleText style={styles.title}>{poses[5].english_name} Pose</TitleText>
           <Image
@@ -106,9 +105,6 @@ const Routine = props => {
             source={{ uri: poses[5].img_url }}
             resizeMode='contain'
           />
-
-
-
           <Button title="Next" 
               onPress={() => {
                 setRemainingSecs({ stretchTime }.stretchTime * 60);
@@ -124,7 +120,6 @@ const Routine = props => {
                   setOnStart(false)
                 } else {
                   setPoseIndex(poseI)
-
                 }
               }
             } 
@@ -294,44 +289,28 @@ const Routine = props => {
     routineOutput = (
       <View>
         <Card style={styles.poseContainer}>
+          <View style={styles.titleView}>
           <TitleText style={styles.title}>{randomRoutine[poseIndex].english_name} Pose</TitleText>
+
+          </View>
           <Image
             style={styles.image}
             source={{ uri: randomRoutine[poseIndex].img_url }}
             resizeMode='contain'
             /> 
 
-            {/* //////////// */}
           <BodyText style={styles.timerText}>{(isActive && remainingSecs===0) ? 'Times Up!' :`${mins}:${secs}`}</BodyText>
-          <View>
+          <View style={styles.timer}>
             <TouchableOpacity 
             onPress={toggle} 
             style={styles.button}>
             <TitleText >{isActive ? 'Pause' : 'Start'}</TitleText>
             </TouchableOpacity>
-            <TouchableOpacity onPress={reset} style={[styles.button, styles.buttonReset]}>
+            <TouchableOpacity onPress={reset} >
               <BodyText>Reset</BodyText>
             </TouchableOpacity>
-
+            
           </View>
-            {/* ////////////////// */}
-          
-            {/* <Button title="Next" 
-            onPress={() => {
-              let poseI= poseIndex;
-              poseI++
-              if (poseI > 5) {
-                setPracticeFinished(true);
-                setRandomRoutine([]);
-                setConfirmed(false);
-                setOnStart(false)
-              } else {
-                setPoseIndex(poseI)
-
-              }
-            }
-          } 
-          /> */}
         </Card>
       </View>
     );
@@ -372,9 +351,14 @@ const Routine = props => {
 };
 
 const styles = StyleSheet.create({
+  titleView: {
+    maxWidth: '70%'
+  },
   poseContainer : {
-    width: 300,
+    width: 400,
     maxWidth: '80%',
+    height: 800,
+    maxHeight: '85%',
     alignItems: 'center',
     marginVertical: 40
   },
@@ -393,6 +377,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     marginVertical: 10,
+    fontSize: 40,
   },
   inputContainer: {
     width: 300,
@@ -425,7 +410,12 @@ const styles = StyleSheet.create({
 
 
 
-
+ timer: {
+   justifyContent: 'space-between',
+   alignItems: 'center',
+   flexDirection: 'row',
+   textAlign: 'center'
+ },
 
   buttonText: {
     fontSize: 10,
@@ -433,15 +423,8 @@ const styles = StyleSheet.create({
   },
   timerText: {
     fontSize: 40,
-    // marginBottom: 20
+    marginBottom: 20
   },
-  // buttonReset: {
-  //   // marginTop: 20,
-  //   borderColor: "#FF851B"
-  // },
-  // buttonTextReset: {
-  //   color: "#FF851B"
-  // }
 });
 
 
