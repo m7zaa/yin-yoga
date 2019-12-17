@@ -4,6 +4,7 @@ import { Text, StyleSheet, View, Button, ImageBackground } from 'react-native';
 import Header from './components/Header';
 import Splash from './screens/Splash';
 import Routine from './screens/Routine';
+import About from './screens/About';
 import CreatePractice from './screens/CreatePractice';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
@@ -25,7 +26,7 @@ export default function App() {
   const [dataLoaded, setDataLoaded] = useState(false);
   const [splash, setSplash] = useState(true);
   const [randomRoutine, setRandomRoutine] = useState([]);
-
+  const [aboutPage, setAboutPage] = useState(false);
 
   if (!dataLoaded) {
     return (
@@ -39,14 +40,20 @@ export default function App() {
   const startRandomFlowHandler = () => {
     setSplash(false)
   }
-
+  const aboutPageHandler = () => {
+    setAboutPage(true)
+  }
   const goHomeHandler = () => {
     setSplash(true)
+    setAboutPage(false)
   }
 
-  let content = <Splash onStartRandomFlow={startRandomFlowHandler} />;
+  let content = <Splash onStartRandomFlow={startRandomFlowHandler} onAboutPageHandler={aboutPageHandler}/>;
   if (!splash) {
-    content = <Routine onGoHomeHandler={goHomeHandler} />
+    content = <Routine onGoHomeHandler={goHomeHandler} onAboutPageHandler={aboutPageHandler}/>
+  }
+  if (aboutPage) {
+    content= <About />
   }
 
 
@@ -55,6 +62,7 @@ export default function App() {
     <View style={styles.container}>
       <Header title="Shaolin Yin"
         onGoHomeHandler={goHomeHandler}
+        onAboutPageHandler={aboutPageHandler}
       />
       <ImageBackground 
       source={require('./assets/background.jpg')} 

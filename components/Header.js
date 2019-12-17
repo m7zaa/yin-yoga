@@ -10,15 +10,15 @@ const Header = props => {
       <View style={styles.header}>
           <TouchableOpacity  onPress={props.onGoHomeHandler}>
             <View style={styles.title}>
-                
-      
               <TitleText>
                 {props.title}
               </TitleText>
             </View>
           </TouchableOpacity>
-    
-      <BodyText style={styles.about}>About</BodyText>
+      <TouchableOpacity onPress={props.onAboutPageHandler}>
+
+        <BodyText style={styles.about}>About</BodyText>
+      </TouchableOpacity>
 
       </View>
   );
