@@ -7,7 +7,7 @@ import TitleText from '../components/TitleText';
 import BodyText from '../components/BodyText';
 import Input from '../components/Input';
 import NumberContainer from '../components/NumberContainer';
-import { Assets } from 'react-navigation-stack';
+// import { Assets } from 'react-navigation-stack';
 import { Audio } from 'expo-av';
 
 

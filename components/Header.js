@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 90,
     paddingTop: 36,
-    backgroundColor: Colors.accent3,
+    backgroundColor: Colors.accent2,
     alignItems: 'center',
     fontFamily: 'open-sans',
     flexDirection: 'row',

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Button, Image } from 'react-native';
+import { View, StyleSheet, Button, Image, TouchableOpacity } from 'react-native';
 import poses from '../assets/data/poses.json';
 import Colors from '../constants/colors';
 import Card from '../components/Card';
 import TitleText from '../components/TitleText';
 import BodyText from '../components/BodyText';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+// import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Splash = props => {
 
