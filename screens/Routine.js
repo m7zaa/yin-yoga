@@ -27,13 +27,9 @@ const Routine = props => {
   const [isActive, setIsActive] = useState(false);
   const [endPose, setEndPose] = useState(false);
 
-  
-  
-  
-  
+  //Sound FX
   const handlePlaySound = async note => {
     const soundObject = new Audio.Sound()
-  
     try {
       let source = require('../assets/bell.wav')
       await soundObject.loadAsync(source)
@@ -91,65 +87,7 @@ const Routine = props => {
     setEndPose(true);
     setConfirmed(false);
     setIsActive(false);
-
-
   }
-  let restScreen;
-  if (endPose) {
-    restScreen = (
-      <View>
-        <Card style={styles.poseContainer}>
-          <TitleText style={styles.title}>{poses[33].english_name} Pose</TitleText>
-          <Image
-            style={styles.image}
-            source={{ uri: poses[33].img_url }}
-            resizeMode='contain'
-          />
-          <Button title="Next" 
-              onPress={() => {
-                setRemainingSecs({ stretchTime }.stretchTime * 60);
-                setIsActive(false);
-                setConfirmed(true);
-                setEndPose(false);
-                let poseI= poseIndex;
-                poseI++
-                if (poseI > 5) {
-                  setPracticeFinished(true);
-                  setRandomRoutine([]);
-                  setConfirmed(false);
-                  setOnStart(false)
-                } else {
-                  setPoseIndex(poseI)
-                }
-              }
-            } 
-            />
-        </Card>
-      </View>
-    )
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  console.log(randomRoutine);
-  console.log(({ practiceTime }.practiceTime) / ({ stretchTime }.stretchTime));
 
   const stretchInputHandler = inputText => {
     setStretchTime(inputText.replace(/[^0-9]/g, ''));
@@ -259,7 +197,7 @@ const Routine = props => {
     secondTimeInput = (
       <View style={styles.screen}>
         <Card style={styles.inputContainer}>
-          <BodyText>How long would you like to hold each pose?</BodyText>
+          <BodyText>How long would you like to hold each pose? (Beginners, try 3-5 minutes.)</BodyText>
           <View style={styles.inputLine}>
             <Input
               placeholder={'minutes'}
@@ -295,8 +233,8 @@ const Routine = props => {
             adjustsFontSizeToFit numberOfLines={1} 
             >
             {randomRoutine[poseIndex].english_name} Pose</Text>
-
           </View>
+            <BodyText>When ready, press 'Start'</BodyText>
           <Image
             style={styles.image}
             source={{ uri: randomRoutine[poseIndex].img_url }}
@@ -319,6 +257,44 @@ const Routine = props => {
       </View>
     );
   };
+  let restScreen;
+  if (endPose) {
+    restScreen = (
+      <View>
+        <Card style={styles.poseContainer}>
+          <TitleText style={styles.subTitle} adjustsFontSizeToFit numberOfLines={1}>Rest In</TitleText>
+          <TitleText style={styles.title} adjustsFontSizeToFit numberOfLines={1}>{poses[33].english_name} Pose</TitleText>
+          <TitleText>When ready, press 'Next'</TitleText>
+          <Image
+            style={styles.image}
+            source={{ uri: poses[33].img_url }}
+            resizeMode='contain'
+            />
+          <Button title="Next"
+            onPress={() => {
+              setRemainingSecs({ stretchTime }.stretchTime * 60);
+              setIsActive(false);
+              setConfirmed(true);
+              setEndPose(false);
+              const poseQuant = ({ practiceTime }.practiceTime) / ({ stretchTime }.stretchTime)
+
+              let poseI = poseIndex;
+              poseI++
+              if (poseI > (poseQuant - 1)) {
+                setPracticeFinished(true);
+                setRandomRoutine([]);
+                setConfirmed(false);
+                setOnStart(false)
+              } else {
+                setPoseIndex(poseI)
+              }
+            }
+            }
+          />
+        </Card>
+      </View>
+    )
+  }
 
 
   let endPractice;
@@ -382,6 +358,11 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     fontFamily: 'open-sans-bold',
     fontSize: 40
+  },
+  subTitle: {
+    // marginVertical: 10,
+    fontFamily: 'open-sans-bold',
+    fontSize: 30
   },
   inputContainer: {
     width: 300,

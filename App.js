@@ -53,7 +53,7 @@ export default function App() {
     content = <Routine onGoHomeHandler={goHomeHandler} onAboutPageHandler={aboutPageHandler}/>
   }
   if (aboutPage) {
-    content= <About />
+    content = <About onGoHomeHandler={goHomeHandler}/>
   }
 
 
