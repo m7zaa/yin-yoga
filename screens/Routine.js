@@ -3,12 +3,13 @@ import { View, StyleSheet, Button, Image, Text, TouchableWithoutFeedback, Keyboa
 import poses from '../assets/data/poses.json';
 import Colors from '../constants/colors';
 import Card from '../components/Card';
+import RestScreen from '../components/RestScreen';
 import TitleText from '../components/TitleText';
 import BodyText from '../components/BodyText';
 import Input from '../components/Input';
-import NumberContainer from '../components/NumberContainer';
 // import { Assets } from 'react-navigation-stack';
 import { Audio } from 'expo-av';
+import EndPractice from '../components/EndPractice.js';
 
 
 
@@ -26,6 +27,7 @@ const Routine = props => {
   const [remainingSecs, setRemainingSecs] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const [endPose, setEndPose] = useState(false);
+  const [whenReadyPrompt, setWhenReadyPrompt] = useState(false);
 
   //Sound FX
   const handlePlaySound = async note => {
@@ -108,7 +110,6 @@ const Routine = props => {
           return;
       }
       setPracticeTime(chosenPracticeTime);
-      // setEnteredValue('');
       Keyboard.dismiss();
       setSecondInput(true);
       setFirstInput(false);
@@ -122,7 +123,6 @@ const Routine = props => {
       return;
     }
     setStretchTime(chosenStretchTime);
-    // setEnteredValue('');
     Keyboard.dismiss();
     setSecondInput(false);
     setFirstInput(false);
@@ -301,12 +301,7 @@ const Routine = props => {
   if (practiceFinished)
   {
     endPractice = (
-      <View>
-        <Card>
-          <TitleText>Good job! You have reached the end!</TitleText>
-        </Card>
-
-      </View>
+      <EndPractice />
     )
   };
 
@@ -349,7 +344,6 @@ const styles = StyleSheet.create({
   }, 
   screen: {
     flex: 1,
-    // padding: 10,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 80
@@ -360,7 +354,6 @@ const styles = StyleSheet.create({
     fontSize: 40
   },
   subTitle: {
-    // marginVertical: 10,
     fontFamily: 'open-sans-bold',
     fontSize: 30
   },
@@ -387,25 +380,13 @@ const styles = StyleSheet.create({
  inputLine: {
     flexDirection: 'row',
     textAlign: 'center',
-
  },
- minutes: {
-   marginTop: 10
- },
-
-
-
  timer: {
    justifyContent: 'space-between',
    alignItems: 'center',
    flexDirection: 'row',
    textAlign: 'center'
  },
-
-  buttonText: {
-    fontSize: 10,
-    color: '#B9AAFF'
-  },
   timerText: {
     fontSize: 40,
     marginBottom: 20

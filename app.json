@@ -9,6 +9,7 @@
       "android",
       "web"
     ],
+    
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/dragonIcon.png",
@@ -20,11 +21,14 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
+    
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
       "supportsTablet": true
     }
+    
+    
   }
 }

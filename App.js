@@ -27,6 +27,7 @@ export default function App() {
   const [splash, setSplash] = useState(true);
   const [randomRoutine, setRandomRoutine] = useState([]);
   const [aboutPage, setAboutPage] = useState(false);
+  const [startCustomRoutine, setStartCustomRoutine] = useState(false);
 
   if (!dataLoaded) {
     return (
@@ -48,12 +49,19 @@ export default function App() {
     setAboutPage(false)
   }
 
-  let content = <Splash onStartRandomFlow={startRandomFlowHandler} onAboutPageHandler={aboutPageHandler}/>;
+  const startCustomRoutineHandler = () => {
+    setStartCustomRoutine(true)
+  }
+
+  let content = <Splash onStartRandomFlow={startRandomFlowHandler} onAboutPageHandler={aboutPageHandler} onStartCustomRoutine={startCustomRoutineHandler}/>;
   if (!splash) {
     content = <Routine onGoHomeHandler={goHomeHandler} onAboutPageHandler={aboutPageHandler}/>
   }
   if (aboutPage) {
     content = <About onGoHomeHandler={goHomeHandler}/>
+  }
+  if (startCustomRoutine) {
+    content = <CreatePractice />
   }
 
 

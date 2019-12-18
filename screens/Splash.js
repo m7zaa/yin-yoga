@@ -8,20 +8,14 @@ import BodyText from '../components/BodyText';
 // import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Splash = props => {
-
-  const [confirmed, setConfirmed] = useState(false);
-  const [routine, setRoutine] = useState();
-
-    
     return (
       <View style={styles.screen}>
-      {/* <Modal visible={props.visible} animationType="slide"> */}
+        <TitleText style={styles.shadow}>Shaolin Yin Yoga</TitleText>
           <Image
             style={styles.image}
             source={require('../assets/dragon.png')}
             resizeMode='contain'
           />
-
         <View style={styles.cardsStyle}>
           <TouchableOpacity>
             <Card style={styles.cardContainer}>
@@ -29,19 +23,17 @@ const Splash = props => {
               <View style={styles.buttonContainer}>
                 <View style={styles.button}>
                   <Button title="Start" 
-                  // onPress={} 
+                    onPress={props.onStartCustomRoutine} 
                   color={Colors.accent2}
                   />
                 </View>
               </View>
             </Card>
-
           </TouchableOpacity>
           <TouchableOpacity onPress=
             {props.onStartRandomFlow}>
-
           <Card style={styles.cardContainer}>
-            <TitleText>Quick Start</TitleText>
+            <TitleText>Quick</TitleText>
             <View style={styles.buttonContainer}>
               <View style={styles.button}>
                 <Button title="Start"
@@ -53,29 +45,9 @@ const Splash = props => {
           </Card>
           </TouchableOpacity>
         </View>        
-      {/* </Modal> */}
     </View>
   );
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 const styles = StyleSheet.create({
   screen: {
@@ -94,7 +66,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 15,
     opacity: 1
-
   },
   cardContainer: {
     width: 150,
@@ -128,8 +99,14 @@ const styles = StyleSheet.create({
   },
   button: {
     opacity: 10
-
+  },
+  shadow: {
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 10,
+    fontSize: 40,
+    marginBottom: 25
   }
-
 });
+
 export default Splash;
